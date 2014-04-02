@@ -1,0 +1,17 @@
+{
+    "name": "angular-simple-model",
+    "version": "0.1.0",
+    "description": "Model for AngularJS",
+    "keywords": [
+        "angular",
+        "model",
+        "collection",
+        "rest"
+    ],
+    "main": "release/angular-simple-model.min.js",
+    "scripts": [
+        "release/angular-simple-model.min.js"
+    ],
+    "license": "MIT",
+    "repo": "sroze/angular-simple-model"
+}

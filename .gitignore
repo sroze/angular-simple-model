@@ -1,0 +1,12 @@
+# master only
+build
+
+# common
+node_modules
+bower_components
+.DS_Store
+*~
+/npm-debug.log
+
+# webstorm files
+.idea
