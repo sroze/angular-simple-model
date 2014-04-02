@@ -23,7 +23,7 @@ module.exports = function (grunt) {
                 banner: '<%= meta.banner %>\n\n'+
                     '/* commonjs package manager support (eg componentjs) */\n'+
                     'if (typeof module !== "undefined" && typeof exports !== "undefined" && module.exports === exports){\n'+
-                    '  module.exports = \'ui.router\';\n'+
+                    '  module.exports = \'angular-simple-model\';\n'+
                     '}\n\n'+
                     '(function (window, angular, undefined) {\n',
                 footer: '})(window, window.angular);'
