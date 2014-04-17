@@ -1,6 +1,6 @@
 /**
  * Simple model for AngularJS
- * @version v0.1.0
+ * @version v0.1.1
  * @link http://github.com/sroze/angular-simple-model
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -86,7 +86,7 @@ var modelExtend = function(protoProps, staticProps) {
     // `parent`'s constructor function.
     var Surrogate = function(){ this.constructor = child; };
     Surrogate.prototype = parent.prototype;
-    child.prototype = new Surrogate;
+    child.prototype = new Surrogate();
 
     // Add prototype properties (instance properties) to the subclass,
     // if supplied.
@@ -138,7 +138,7 @@ function $BaseModelFactory($http) {
     };
 
     BaseModel.prototype.computeUrl = function(path, parameters) {
-        if (parameters != undefined && typeof parameters == 'object') {
+        if (parameters !== undefined && typeof parameters == 'object') {
             for (var key in parameters) {
                 path = path.replace('{'+key+'}', parameters[key]);
             }
@@ -171,23 +171,19 @@ function $BaseModelFactory($http) {
     };
 
     BaseModel.prototype.sync = function (method, data, options) {
-        options = options || {};
-        options.method = options.method || method;
-        data = data || options.data;
+        options = angular.extend({
+            method: method,
+            url: resolveValue(this, 'url'),
+            data: data
+        }, options);
 
-        var url = options.url || resolveValue(this, 'url'),
-            self = this;
-
-        if (method == 'GET' && data != undefined) {
-            url += url.indexOf('?') == -1 ? '?' : '&';
-            url += $.param(data);
+        if (options.method == 'GET' && options.data !== undefined) {
+            options.url += options.url.indexOf('?') == -1 ? '?' : '&';
+            options.url += $.param(options.data);
         }
 
-        return $http({
-            url: url,
-            method: method,
-            data: data
-        }).then(function (httpResponse) {
+        var self = this;
+        return $http(options).then(function (httpResponse) {
             var model = self.parse(httpResponse, options);
             self.set(model);
         });
@@ -261,7 +257,7 @@ function $CollectionFactory (BaseModel) {
             return this.computeUrl(this.baseUrl);
         },
         set: function (models, options) {
-            if (models.length == undefined) {
+            if (models.length === undefined) {
                 return;
             }
 
