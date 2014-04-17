@@ -18,7 +18,7 @@ function $BaseModelFactory($http) {
     };
 
     BaseModel.prototype.computeUrl = function(path, parameters) {
-        if (parameters != undefined && typeof parameters == 'object') {
+        if (parameters !== undefined && typeof parameters == 'object') {
             for (var key in parameters) {
                 path = path.replace('{'+key+'}', parameters[key]);
             }
@@ -57,7 +57,7 @@ function $BaseModelFactory($http) {
             data: data
         }, options);
 
-        if (options.method == 'GET' && options.data != undefined) {
+        if (options.method == 'GET' && options.data !== undefined) {
             options.url += options.url.indexOf('?') == -1 ? '?' : '&';
             options.url += $.param(options.data);
         }

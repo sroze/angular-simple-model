@@ -20,7 +20,7 @@ function $CollectionFactory (BaseModel) {
             return this.computeUrl(this.baseUrl);
         },
         set: function (models, options) {
-            if (models.length == undefined) {
+            if (models.length === undefined) {
                 return;
             }
 
