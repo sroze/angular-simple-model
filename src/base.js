@@ -51,23 +51,19 @@ function $BaseModelFactory($http) {
     };
 
     BaseModel.prototype.sync = function (method, data, options) {
-        options = options || {};
-        options.method = options.method || method;
-        data = data || options.data;
+        options = angular.extend({
+            method: method,
+            url: resolveValue(this, 'url'),
+            data: data
+        }, options);
 
-        var url = options.url || resolveValue(this, 'url'),
-            self = this;
-
-        if (method == 'GET' && data != undefined) {
-            url += url.indexOf('?') == -1 ? '?' : '&';
-            url += $.param(data);
+        if (options.method == 'GET' && options.data != undefined) {
+            options.url += options.url.indexOf('?') == -1 ? '?' : '&';
+            options.url += $.param(options.data);
         }
 
-        return $http({
-            url: url,
-            method: method,
-            data: data
-        }).then(function (httpResponse) {
+        var self = this;
+        return $http(options).then(function (httpResponse) {
             var model = self.parse(httpResponse, options);
             self.set(model);
         });
