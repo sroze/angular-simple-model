@@ -1,6 +1,6 @@
 /**
  * Simple model for AngularJS
- * @version v0.1.1
+ * @version v0.1.2
  * @link http://github.com/sroze/angular-simple-model
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -186,6 +186,8 @@ function $BaseModelFactory($http) {
         return $http(options).then(function (httpResponse) {
             var model = self.parse(httpResponse, options);
             self.set(model);
+
+            return httpResponse;
         });
     };
 
