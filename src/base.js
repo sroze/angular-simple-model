@@ -66,6 +66,8 @@ function $BaseModelFactory($http) {
         return $http(options).then(function (httpResponse) {
             var model = self.parse(httpResponse, options);
             self.set(model);
+
+            return httpResponse;
         });
     };
 
