@@ -1,6 +1,6 @@
 /**
  * Simple model for AngularJS
- * @version v0.1.2
+ * @version v0.1.3
  * @link http://github.com/sroze/angular-simple-model
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -169,11 +169,14 @@ function $BaseModelFactory($http) {
     BaseModel.prototype.destroy = function (options) {
         return this.sync('DELETE', undefined, options);
     };
+    BaseModel.prototype._resolve = function (field) {
+        return resolveValue(this, field);
+    };
 
     BaseModel.prototype.sync = function (method, data, options) {
         options = angular.extend({
             method: method,
-            url: resolveValue(this, 'url'),
+            url: this._resolve('url'),
             data: data
         }, options);
 
@@ -229,7 +232,7 @@ function $ModelFactory (BaseModel) {
             return BaseModel.prototype.save.call(this, options);
         },
         url: function () {
-            return this.computeUrl(this.baseUrl, this.attributes);
+            return this.computeUrl(this._resolve('baseUrl'), this.attributes);
         }
     });
 }
@@ -256,7 +259,7 @@ function $CollectionFactory (BaseModel) {
             return collection;
         },
         url: function () {
-            return this.computeUrl(this.baseUrl);
+            return this.computeUrl(this._resolve('baseUrl'));
         },
         set: function (models, options) {
             if (models.length === undefined) {
