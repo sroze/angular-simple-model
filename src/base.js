@@ -49,11 +49,14 @@ function $BaseModelFactory($http) {
     BaseModel.prototype.destroy = function (options) {
         return this.sync('DELETE', undefined, options);
     };
+    BaseModel.prototype._resolve = function (field) {
+        return resolveValue(this, field);
+    };
 
     BaseModel.prototype.sync = function (method, data, options) {
         options = angular.extend({
             method: method,
-            url: resolveValue(this, 'url'),
+            url: this._resolve('url'),
             data: data
         }, options);
 

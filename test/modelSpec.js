@@ -19,6 +19,16 @@ describe("Model", function () {
     });
 
     describe("url", function () {
+        it('must accept baseUrl function', function () {
+            var model = new (baseModel.extend({
+                baseUrl: function () {
+                    return 'test';
+                }
+            }))();
+
+            expect(model.url()).toEqual('test');
+        });
+
         it('should populate parameters', function () {
             var attrs = {'foo': 'bar', 'bar': 'foo'},
                 model = new (baseModel.extend({

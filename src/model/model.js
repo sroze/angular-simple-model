@@ -28,7 +28,7 @@ function $ModelFactory (BaseModel) {
             return BaseModel.prototype.save.call(this, options);
         },
         url: function () {
-            return this.computeUrl(this.baseUrl, this.attributes);
+            return this.computeUrl(this._resolve('baseUrl'), this.attributes);
         }
     });
 }

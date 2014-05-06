@@ -17,7 +17,7 @@ function $CollectionFactory (BaseModel) {
             return collection;
         },
         url: function () {
-            return this.computeUrl(this.baseUrl);
+            return this.computeUrl(this._resolve('baseUrl'));
         },
         set: function (models, options) {
             if (models.length === undefined) {
