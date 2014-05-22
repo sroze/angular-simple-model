@@ -46,5 +46,8 @@
         "load-grunt-tasks": "~0.4.0",
         "grunt-conventional-changelog": "~1.1.0"
     },
+    "scripts": {
+        "test": "grunt test --verbose"
+    },
     "main": "release/angular-simple-model"
 }
