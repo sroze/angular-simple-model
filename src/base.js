@@ -8,7 +8,7 @@ function $BaseModelFactory($http) {
     var BaseModel = function (data, options) {
         this.options = options || {};
 
-        this.initialize(arguments);
+        this.initialize.apply(this, arguments);
     };
 
     BaseModel.prototype.initialize = function () {
