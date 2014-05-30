@@ -1,6 +1,6 @@
 /**
  * Simple model for AngularJS
- * @version v0.1.3
+ * @version v0.1.4
  * @link http://github.com/sroze/angular-simple-model
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -128,7 +128,7 @@ function $BaseModelFactory($http) {
     var BaseModel = function (data, options) {
         this.options = options || {};
 
-        this.initialize(arguments);
+        this.initialize.apply(this, arguments);
     };
 
     BaseModel.prototype.initialize = function () {
