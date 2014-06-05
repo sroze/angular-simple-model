@@ -1,6 +1,6 @@
 /**
  * Simple model for AngularJS
- * @version v0.1.5
+ * @version v0.1.5-dev-2014-06-05
  * @link http://github.com/sroze/angular-simple-model
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -210,6 +210,8 @@ function $BaseModelFactory($http, $q) {
                 abortDeferred = null;
             });
         }
+
+        return promise;
     };
 
     BaseModel.extend = modelExtend;

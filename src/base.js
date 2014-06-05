@@ -90,6 +90,8 @@ function $BaseModelFactory($http, $q) {
                 abortDeferred = null;
             });
         }
+
+        return promise;
     };
 
     BaseModel.extend = modelExtend;
