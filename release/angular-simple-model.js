@@ -1,6 +1,6 @@
 /**
  * Simple model for AngularJS
- * @version v0.1.6
+ * @version v0.1.7
  * @link http://github.com/sroze/angular-simple-model
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -202,6 +202,7 @@ function $BaseModelFactory($http, $q) {
         if (abortDeferred !== undefined) {
             promise.abort = function () {
                 if (abortDeferred) {
+                    promise.aborted = true;
                     abortDeferred.resolve();
                 }
             };
