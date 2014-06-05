@@ -1,6 +1,6 @@
 /**
  * Simple model for AngularJS
- * @version v0.1.4
+ * @version v0.1.5
  * @link http://github.com/sroze/angular-simple-model
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -122,8 +122,8 @@ angular.module('angular-simple-model', ['ng']);
  * Base model that contain the common methods.
  *
  */
-$BaseModelFactory.$inject = ['$http'];
-function $BaseModelFactory($http) {
+$BaseModelFactory.$inject = ['$http', '$q'];
+function $BaseModelFactory($http, $q) {
     // The base model.
     var BaseModel = function (data, options) {
         this.options = options || {};
@@ -185,13 +185,31 @@ function $BaseModelFactory($http) {
             options.url += $.param(options.data);
         }
 
-        var self = this;
-        return $http(options).then(function (httpResponse) {
+        var abortDeferred;
+        if (options.timeout === undefined) {
+            abortDeferred = $q.defer();
+            options.timeout = abortDeferred.promise;
+        }
+
+        var self = this,
+            promise = $http(options).then(function (httpResponse) {
             var model = self.parse(httpResponse, options);
             self.set(model);
 
             return httpResponse;
         });
+
+        if (abortDeferred !== undefined) {
+            promise.abort = function () {
+                if (abortDeferred) {
+                    abortDeferred.resolve();
+                }
+            };
+
+            promise['finally'](function () {
+                abortDeferred = null;
+            });
+        }
     };
 
     BaseModel.extend = modelExtend;
