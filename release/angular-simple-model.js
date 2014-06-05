@@ -1,6 +1,6 @@
 /**
  * Simple model for AngularJS
- * @version v0.1.5-dev-2014-06-05
+ * @version v0.1.6
  * @link http://github.com/sroze/angular-simple-model
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
