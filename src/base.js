@@ -82,6 +82,7 @@ function $BaseModelFactory($http, $q) {
         if (abortDeferred !== undefined) {
             promise.abort = function () {
                 if (abortDeferred) {
+                    promise.aborted = true;
                     abortDeferred.resolve();
                 }
             };
