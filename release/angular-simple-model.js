@@ -1,6 +1,6 @@
 /**
  * Simple model for AngularJS
- * @version v0.1.7
+ * @version v0.2.0
  * @link http://github.com/sroze/angular-simple-model
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -134,6 +134,8 @@ function $BaseModelFactory($http, $q) {
     BaseModel.prototype.initialize = function () {
         if (this.options.baseUrl) {
             this.baseUrl = this.options.baseUrl;
+        } else if (this.options.url) {
+            this.url = this.options.url;
         }
     };
 
@@ -227,6 +229,8 @@ angular.module('angular-simple-model')
 $ModelFactory.$inject = ['BaseModel'];
 function $ModelFactory (BaseModel) {
     return BaseModel.extend({
+        identifierKey: 'id',
+
         constructor: function (attributes, options) {
             BaseModel.prototype.constructor.apply(this, arguments);
 
@@ -254,6 +258,9 @@ function $ModelFactory (BaseModel) {
         },
         url: function () {
             return this.computeUrl(this._resolve('baseUrl'), this.attributes);
+        },
+        getIdentifier: function () {
+            return this.get(this.identifierKey);
         }
     });
 }
@@ -268,31 +275,55 @@ function $CollectionFactory (BaseModel) {
         constructor: function (models, options) {
             BaseModel.prototype.constructor.apply(this, arguments);
 
-            this.models = models || {};
+            this.models = [];
+            this.attributes = [];
+
+            this.set(models || []);
         },
         getAttributesArray: function () {
-            var collection = [];
-
-            for (var i = 0; i < this.models.length; i++) {
-                collection.push(this.models[i].attributes);
-            }
-
-            return collection;
+            return this.attributes;
         },
         url: function () {
             return this.computeUrl(this._resolve('baseUrl'));
         },
+        add: function (model, options) {
+            var prepared = this._prepareModel(model, options);
+
+            this.models.push(prepared);
+            this.attributes.push(prepared.attributes);
+        },
+        remove: function (model) {
+            for (var i = 0; i < this.models.length; i++) {
+                if (this.models[i].getIdentifier() == model.getIdentifier()) {
+                    this.removeIndex(i);
+
+                    break;
+                }
+            }
+        },
+        removeIndex: function (index) {
+            this.models.splice(index, 1);
+            this.attributes.splice(index, 1);
+        },
         set: function (models, options) {
+            var i;
+            for (i = 0; i < this.models.length; i++) {
+                this.removeIndex(i);
+            }
+
             if (models.length === undefined) {
                 return;
             }
 
-            this.models = [];
-            for (var i = 0; i < models.length; i++) {
-                this.models.push(this._prepareModel(models[i], options));
+            for (i = 0; i < models.length; i++) {
+                this.add(models[i], options);
             }
         },
         _prepareModel: function (attrs, options) {
+            if (attrs instanceof this.model) {
+                return attrs;
+            }
+
             return new this.model(attrs, options);
         }
     });
