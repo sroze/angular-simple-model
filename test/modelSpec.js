@@ -16,6 +16,24 @@ describe("Model", function () {
             expect(model.get('foo')).toBe('bar');
             expect(model.get('i')).toBe(2);
         });
+
+        it('should define an identifier with id', function () {
+            var model = new baseModel({
+                id: 2
+            });
+
+            expect(model.getIdentifier()).toEqual(2);
+        });
+
+        it('should define an identifier with custom key', function () {
+            var model = new (baseModel.extend({
+                identifierKey: 'uuid'
+            }))({
+                uuid: '1234567890'
+            });
+
+            expect(model.getIdentifier()).toEqual('1234567890');
+        });
     });
 
     describe("url", function () {
@@ -36,6 +54,30 @@ describe("Model", function () {
                 }))(attrs);
 
             expect(model.url()).toEqual('http://example.com/bar/foo');
+        });
+    });
+
+    describe("scope mapping", function () {
+        var scope;
+
+        beforeEach(function () {
+            inject(function($rootScope) {
+                scope = $rootScope.$new();
+            });
+        });
+
+        it('must keep attributes in sync', function () {
+            var model = new baseModel({
+                foo: 'bar'
+            });
+
+            scope.model = model.attributes;
+            expect(scope.model).toBeDefined();
+            expect(scope.model.foo).toEqual('bar');
+            expect(scope.model.bar).toBeUndefined();
+
+            scope.model.bar = 'foo';
+            expect(model.get('bar')).toEqual('foo');
         });
     });
 });

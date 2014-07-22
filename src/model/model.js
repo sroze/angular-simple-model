@@ -2,6 +2,8 @@
 $ModelFactory.$inject = ['BaseModel'];
 function $ModelFactory (BaseModel) {
     return BaseModel.extend({
+        identifierKey: 'id',
+
         constructor: function (attributes, options) {
             BaseModel.prototype.constructor.apply(this, arguments);
 
@@ -29,6 +31,9 @@ function $ModelFactory (BaseModel) {
         },
         url: function () {
             return this.computeUrl(this._resolve('baseUrl'), this.attributes);
+        },
+        getIdentifier: function () {
+            return this.get(this.identifierKey);
         }
     });
 }
