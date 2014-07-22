@@ -5,7 +5,7 @@ function $CollectionFactory (BaseModel) {
         constructor: function (models, options) {
             BaseModel.prototype.constructor.apply(this, arguments);
 
-            this.models = models || {};
+            this.models = models || [];
         },
         getAttributesArray: function () {
             var collection = [];

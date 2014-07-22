@@ -14,6 +14,8 @@ function $BaseModelFactory($http, $q) {
     BaseModel.prototype.initialize = function () {
         if (this.options.baseUrl) {
             this.baseUrl = this.options.baseUrl;
+        } else if (this.options.url) {
+            this.url = this.options.url;
         }
     };
 
