@@ -78,7 +78,7 @@ function $BaseModelFactory($http, $q) {
             var model = self.parse(httpResponse, options);
             self.set(model);
 
-            return httpResponse;
+            return self;
         });
 
         if (abortDeferred !== undefined) {
