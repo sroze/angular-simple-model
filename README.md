@@ -9,7 +9,6 @@ This angular module provide base model objects usable in your AngularJS applicat
 - [Basic usage](#basic-usage)
 - [Advanced usage](#advanced-usage)
 - [Running tests](#tests)
-
 - [API](doc/api.md)
 
 # Installation
@@ -77,7 +76,7 @@ angular.module('your-module')
 You can now inject your models and collections where you want, in your services, controllers...
 
 Here's a task list controller example:
-```
+```js
 angular.module('your-module')
     .controller('TaskListCtrl', function($scope, TaskCollection) {
         var tasks = new TaskCollection();
@@ -94,7 +93,7 @@ angular.module('your-module')
 ```
 
 Then, you're show/update controller could be:
-```
+```js
 angular.module('your-module')
     .controller('TaskCtrl', function($scope, $routeParams, Task) {
         // Get your task ID
