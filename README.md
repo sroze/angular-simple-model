@@ -8,7 +8,7 @@ This angular module provide base model objects usable in your AngularJS applicat
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
 - [Advanced usage](#advanced-usage)
-- [Running tests](#tests)
+- [Running tests](#running-tests)
 - [API](doc/api.md)
 
 # Installation
