@@ -37,7 +37,7 @@ function $CollectionFactory (BaseModel) {
         },
         set: function (models, options) {
             var i;
-            for (i = 0; i < this.models.length; i++) {
+            for (i=this.models.length-1; i>=0; i--) {
                 this.removeIndex(i);
             }
 
